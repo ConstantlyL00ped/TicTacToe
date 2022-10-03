@@ -1,0 +1,31 @@
+body{
+    background-color: #34568B;
+    margin: 0;
+    padding: 0;
+}
+.scoreSection{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 50px;
+}
+#Player1Score{
+    position: absolute;
+    right: 100px;
+    bottom: 0;
+}
+#Player2Score{
+    position: absolute;
+    left: 100px;
+    bottom: 0;
+}
+#myCanvas{
+    border: 1px solid white;
+}
+#myCanvas:hover{
+    cursor: pointer;
+}
+.gameCanvasArea{
+    text-align: center;
+}

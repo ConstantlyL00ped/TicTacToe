@@ -1,3 +1,5 @@
+let playerTurn = 2;
+
 function square(row, column){
     this.squareValue = 0; //0 = empty, 1 = square, 2 = circle
     this.row = row;
@@ -29,6 +31,7 @@ function drawLines(linesArea){
         ctx.moveTo(0, el);
         ctx.lineTo(500, el);
         ctx.stroke();
+
         ctx.beginPath();
         ctx.moveTo(el, 0);
         ctx.lineTo(el, 500);
@@ -45,15 +48,34 @@ function getClick(canvas, event){
    
    const squareClickedRow = Math.floor(clickHeight / 166); 
    const squareClickedColumn = Math.floor(clickWidth / 166);
-   console.log(squareClickedRow, squareClickedColumn);
-   
-}
 
-function drawCircle(){
+   checkSquare(squareClickedRow, squareClickedColumn)
 
 }
 
-function drawSquare(){
+function checkSquare(squareClickedRow, squareClickedColumn){
+    if(squareArea[squareClickedColumn][squareClickedRow].squareValue == 0){
+        if(playerTurn % 2){
+            squareArea[squareClickedColumn][squareClickedRow].squareValue == 2
+            drawSquare(squareClickedColumn, squareClickedRow);
+        }else{
+            squareArea[squareClickedColumn][squareClickedRow].squareValue == 1
+            drawCircle(squareClickedColumn, squareClickedRow);
+        }
+    }
+}
+
+function drawCircle(squareClickedColumn, squareClickedRow){
+    const centerOfSquareHorizontal = (squareClickedColumn + 1) + 88 + (166 * squareClickedColumn);
+    const centerOfSquareVertical = (squareClickedRow + 1) + 88 + (166 * squareClickedRow);
+
+    console.log("Drawing...")
+    ctx.beginPath();
+    ctx.arc(centerOfSquareHorizontal, centerOfSquareVertical, 40, 0, 2 * Math.PI)
+    ctx.stroke();
+}
+
+function drawSquare(squareClickedColumn, squareClickedRow){
 
 }
 

@@ -2,16 +2,45 @@ let playerTurn = 2;
 let player1Points = 0;
 let player2Points = 0;
 
+let player1Name = prompt("Enter player1 name: ");
+let player2Name = prompt("Enter player2 name: ");
+
+const player1NameTextContent = document.getElementById("player1Name")
+const player2NameTextContent = document.getElementById("player2Name")
+
+const playerOneScore = document.getElementById("player1Points");
+const playerTwoScore = document.getElementById("player2Points");
+
+function setNames(){
+    player1NameTextContent.innerText = player1Name;
+    player2NameTextContent.innerText = player2Name;
+}
+
+function swapPlayers(){
+    let holder = player1Points;
+    player1Points = player2Points;
+    player2Points = holder;
+
+    player1NameTextContent.innerText = player2Name;
+    player2NameTextContent.innerText = player1Name;
+
+    holder = player1Name;
+    player1Name = player2Name;
+    player2Name = holder;
+
+    updatePlayerPointsValue();
+};
+
 function square(row, column){
     this.squareValue = 0; //0 = empty, 1 = circle, 2 = square
     this.row = row;
     this.column = column;
-}
+};
 
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
-const linesArea = [Math.floor(canvas.height / 3), Math.floor(canvas.height / 3) * 2] //Its a square
+const linesArea = [Math.floor(canvas.height / 3), Math.floor(canvas.height / 3) * 2]; //Its a square
 const squareArea = [];
 
 function createSquaresArray(squareArea){
@@ -26,10 +55,7 @@ function createSquaresArray(squareArea){
 
         squareArea.push(tempArray);
     }
-}
-
-createSquaresArray(squareArea)
-clearCanvas();
+};
 
 function clearCanvas(){
     ctx.beginPath();
@@ -38,7 +64,7 @@ function clearCanvas(){
     ctx.fill();
 
     drawLines(linesArea);
-}
+};
 
 function drawLines(){
     for(const el of linesArea)
@@ -46,6 +72,7 @@ function drawLines(){
         ctx.beginPath();
         ctx.moveTo(0, el);
         ctx.lineTo(500, el);
+        ctx.strokeStyle = '#ff6a1e';
         ctx.stroke();
 
         ctx.beginPath();
@@ -53,7 +80,7 @@ function drawLines(){
         ctx.lineTo(el, 500);
         ctx.stroke();
     }
-}
+};
 
 function getClick(canvas, event){
    const rect = canvas.getBoundingClientRect();
@@ -64,9 +91,8 @@ function getClick(canvas, event){
    const squareClickedColumn = Math.floor(clickWidth / 166);
 
 
-   checkSquare(squareClickedRow, squareClickedColumn)
-
-}
+   checkSquare(squareClickedRow, squareClickedColumn);
+};
 
 function checkSquare(squareClickedRow, squareClickedColumn){
     if(squareArea[squareClickedColumn][squareClickedRow].squareValue == 0){
@@ -82,29 +108,27 @@ function checkSquare(squareClickedRow, squareClickedColumn){
             drawCircle(squareClickedColumn, squareClickedRow);
         }
     }
-}
+};
 
 function drawCircle(squareClickedColumn, squareClickedRow){
-    console.log("drawing..")
-    const centerOfSquareHorizontal = (squareClickedColumn + 1) + 88 + (166 * squareClickedColumn);
-    const centerOfSquareVertical = (squareClickedRow + 1) + 88 + (166 * squareClickedRow);
+    const centerOfSquareHorizontal = (squareClickedColumn + 1) + 84 + (166 * squareClickedColumn);
+    const centerOfSquareVertical = (squareClickedRow + 1) + 84 + (166 * squareClickedRow);
 
     ctx.beginPath();
-    ctx.arc(centerOfSquareHorizontal, centerOfSquareVertical, 40, 0, 2 * Math.PI)
+    ctx.arc(centerOfSquareHorizontal, centerOfSquareVertical, 40, 0, 2 * Math.PI);
     ctx.stroke();
     
     playerTurn += 1;
 
     checkForWinner();
-}
+};
 
 function drawSquare(squareClickedColumn, squareClickedRow){
-    console.log("drawing..")
-    const centerOfSquareHorizontal = (squareClickedColumn + 1) + 88 + (166 * squareClickedColumn);
-    const centerOfSquareVertical = (squareClickedRow + 1) + 88 + (166 * squareClickedRow);
+    const centerOfSquareHorizontal = (squareClickedColumn + 1) + 84 + (166 * squareClickedColumn);
+    const centerOfSquareVertical = (squareClickedRow + 1) + 84 + (166 * squareClickedRow);
 
     ctx.beginPath();
-    ctx.rect(centerOfSquareHorizontal - 42, centerOfSquareVertical - 42, 84, 84)
+    ctx.rect(centerOfSquareHorizontal - 42, centerOfSquareVertical - 42, 84, 84);
     ctx.stroke();
     
     playerTurn += 1;
@@ -156,13 +180,17 @@ function checkForWinner(){
             player1Points += 1;
             updatePlayerPointsValue();
         }
-
-        if(rectColumn == 3 || rectRow == 3)
+        else if(rectColumn == 3 || rectRow == 3)
         {
             clearSquareValue();
             clearCanvas();
             player2Points += 1;
             updatePlayerPointsValue();
+        }
+        else if(playerTurn == 11)
+        {
+            clearSquareValue();
+            clearCanvas();
         }
 
         circleColumn = 0;
@@ -173,11 +201,8 @@ function checkForWinner(){
 }
 
 function updatePlayerPointsValue(){
-    const playerOne = document.getElementById("Player1Points");
-    const playerTwo = document.getElementById("Player2Points");
-    
-    playerOne.innerText = `${player1Points}`
-    playerTwo.innerText = `${player2Points}`
+    playerOneScore.innerText = `${player1Points}`;
+    playerTwoScore.innerText = `${player2Points}`;
 }
 
 function clearSquareValue(){
@@ -192,4 +217,15 @@ function clearSquareValue(){
     playerTurn = 2;
 }
 
-canvas.addEventListener("click", (event) => {getClick(canvas, event)}, false);
+function main(){
+    const swapPlayersButton = document.querySelector(".swapPlayers");
+
+    setNames();
+    createSquaresArray(squareArea);
+    clearCanvas();
+
+    swapPlayersButton.addEventListener("click", swapPlayers, false);
+    canvas.addEventListener("click", (event) => {getClick(canvas, event)}, false);
+}
+
+main();

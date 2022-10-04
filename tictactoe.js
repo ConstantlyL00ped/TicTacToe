@@ -43,6 +43,8 @@ const ctx = canvas.getContext("2d");
 const linesArea = [Math.floor(canvas.height / 3), Math.floor(canvas.height / 3) * 2]; //Its a square
 const squareArea = [];
 
+console.log(squareArea.length)
+
 function createSquaresArray(squareArea){
     for(let y = 0; y < 3; y++)
     {
@@ -141,8 +143,10 @@ function drawSquare(squareClickedColumn, squareClickedRow){
 function checkForWinner(){
     let rectColumn = 0;
     let rectRow = 0;
+    let rectDiagonal = 0;
     let circleColumn = 0;
     let circleRow = 0;
+    let circleDiagonal = 0;
     for(let column = 0; column < 3; column++)
     {
         for(let row = 0; row < 3; row++)
@@ -165,25 +169,24 @@ function checkForWinner(){
             {
                 rectColumn += 1;
             }
-
-            if((squareArea[0][0].squareValue == 1 && squareArea[1][1].squareValue == 1 && squareArea[2][2].squareValue == 1) || 
-               (squareArea[0][2].squareValue == 1 && squareArea[1][1].squareValue == 1 && squareArea[2][0].squareValue == 1)){
-                circleColumn = 3;
-            }
-            if((squareArea[0][0].squareValue == 2 && squareArea[1][1].squareValue == 2 && squareArea[2][2].squareValue == 2) || 
-               (squareArea[0][2].squareValue == 2 && squareArea[1][1].squareValue == 2 && squareArea[2][0].squareValue == 2)){
-                rectColumn = 3;
-            }
+        }
+        //Not hardcoded so i think its better.
+        if(squareArea[column][column].squareValue == 1 || squareArea[(squareArea.length - column - 1)][column].squareValue == 1){
+            circleDiagonal += 1;
+        }
+        if(squareArea[column][column].squareValue == 2 || squareArea[(squareArea.length - column - 1)][column].squareValue == 2){
+            rectDiagonal += 1;
         }
 
-        if(circleColumn == 3 || circleRow == 3)
+        if(circleColumn == 3 || circleRow == 3 || circleDiagonal == 3)
         {
+            console.log("Clearing circle...")
             clearSquareValue();
             clearCanvas();
             player1Points += 1;
             updatePlayerPointsValue();
         }
-        else if(rectColumn == 3 || rectRow == 3)
+        else if(rectColumn == 3 || rectRow == 3 || rectDiagonal == 3)
         {
             clearSquareValue();
             clearCanvas();

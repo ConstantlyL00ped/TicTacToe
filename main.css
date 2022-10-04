@@ -12,12 +12,12 @@ body{
 }
 #Player1Score{
     position: absolute;
-    right: 100px;
+    left: 100px;
     bottom: 0;
 }
 #Player2Score{
     position: absolute;
-    left: 100px;
+    right: 100px;
     bottom: 0;
 }
 #myCanvas{
@@ -28,4 +28,10 @@ body{
 }
 .gameCanvasArea{
     text-align: center;
+}
+#Player1Points{
+    display: inline-block;
+}
+#Player2Points{
+    display: inline-block;
 }

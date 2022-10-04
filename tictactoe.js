@@ -84,8 +84,11 @@ function drawLines(){
 
 function getClick(canvas, event){
    const rect = canvas.getBoundingClientRect();
-   const clickHeight = event.pageY - rect.y;
-   const clickWidth = event.pageX - rect.x;
+   const clickHeight = (event.pageY - rect.y) - scrollY;
+   const clickWidth = (event.pageX - rect.x) - scrollX;
+
+   console.log(clickHeight);
+   console.log(` ${clickWidth}`)
    
    const squareClickedRow = Math.floor(clickHeight / 166); 
    const squareClickedColumn = Math.floor(clickWidth / 166);

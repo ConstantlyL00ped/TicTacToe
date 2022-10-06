@@ -147,9 +147,10 @@ function checkForWinner(){
     let circleColumn = 0;
     let circleRow = 0;
     let circleDiagonal = 0;
-    for(let column = 0; column < 3; column++)
+    const arrayLength = squareArea.length
+    for(let column = 0; column < arrayLength; column++)
     {
-        for(let row = 0; row < 3; row++)
+        for(let row = 0; row < arrayLength; row++)
         {
 
             if(squareArea[row][column].squareValue == 1)
@@ -171,10 +172,10 @@ function checkForWinner(){
             }
         }
         //Not hardcoded so i think its better.
-        if(squareArea[column][column].squareValue == 1 || squareArea[(squareArea.length - column - 1)][column].squareValue == 1){
+        if(squareArea[column][column].squareValue == 1 || squareArea[(arrayLength - column - 1)][column].squareValue == 1){
             circleDiagonal += 1;
         }
-        if(squareArea[column][column].squareValue == 2 || squareArea[(squareArea.length - column - 1)][column].squareValue == 2){
+        if(squareArea[column][column].squareValue == 2 || squareArea[(arrayLength - column - 1)][column].squareValue == 2){
             rectDiagonal += 1;
         }
 

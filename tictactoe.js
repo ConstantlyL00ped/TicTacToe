@@ -17,16 +17,11 @@ function setNames(){
 }
 
 function swapPlayers(){
-    let holder = player1Points;
-    player1Points = player2Points;
-    player2Points = holder;
+    [player1Pointes, player2Points] = [player2Points, player1Points];
 
     player1NameTextContent.innerText = player2Name;
     player2NameTextContent.innerText = player1Name;
-
-    holder = player1Name;
-    player1Name = player2Name;
-    player2Name = holder;
+    [player1Name, player2Name] = [player2Name, player1Name]
 
     updatePlayerPointsValue();
 };
@@ -137,6 +132,7 @@ function drawSquare(squareClickedColumn, squareClickedRow){
     ctx.stroke();
     
     playerTurn += 1;
+
     checkForWinner();
 }
 
@@ -148,6 +144,7 @@ function checkForWinner(){
     let circleRow = 0;
     let circleDiagonal = 0;
     const arrayLength = squareArea.length
+    
     for(let column = 0; column < arrayLength; column++)
     {
         for(let row = 0; row < arrayLength; row++)
@@ -171,7 +168,7 @@ function checkForWinner(){
                 rectColumn += 1;
             }
         }
-        //Not hardcoded so i think its better.
+
         if(squareArea[column][column].squareValue == 1 || squareArea[(arrayLength - column - 1)][column].squareValue == 1){
             circleDiagonal += 1;
         }
